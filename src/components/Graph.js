@@ -21,7 +21,7 @@ const newdata = data.map((data) => {
 )
 */
 
-function Demo() {
+function Graph() {
     const [data, setData] = useState();
     useEffect(() => {
         fetch(searchUrl)
@@ -146,4 +146,4 @@ function Demo() {
     </Chart>
 }
 
-export default Demo;
+export default Graph;

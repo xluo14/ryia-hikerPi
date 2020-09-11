@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Form, Input, Button, DatePicker} from 'antd';
-import {apiRoot} from '../GetData';
+import {searchUrl} from '../GetData';
 
 
 class Search extends Component {
@@ -17,7 +17,7 @@ class Search extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                fetch(`${apiRoot}/post`, {
+                fetch(searchUrl, {
                     method: 'POST',
                     body: JSON.stringify({
                         startDate: values.startDate,

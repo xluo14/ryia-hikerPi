@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-import 'antd/dist/antd.css';0
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <div>
