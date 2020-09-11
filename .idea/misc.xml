@@ -3,6 +3,12 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="JSX" />
   </component>
+  <component name="PlugProxyProjectComponent">
+    <option name="host" value="" />
+    <option name="hostPort" value="" />
+    <option name="localPort" value="" />
+    <option name="hexDump" />
+  </component>
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
