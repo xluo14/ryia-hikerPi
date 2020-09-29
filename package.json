@@ -1,22 +1,23 @@
 {
   "name": "ryia",
   "version": "0.1.0",
-  "homepage": "http://box5926.temp.domains/~dzcjfxmy/?page_id=267",
+  "homepage": "http://box5926.temp.domains/~dzcjfxmy/react/",
   "private": true,
   "dependencies": {
+    "@antv/data-set": "^0.11.7",
     "@antv/g2": "^4.0.2",
     "@antv/util": "^2.0.5",
-    "resize-observer-polyfill": "^1.5.1",
-    "warning": "^4.0.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "antd": "^3.26.18",
+    "antd": "^4.6.5",
     "bizcharts": "^4.0.14",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "@antv/data-set": "^0.11.5"
+    "resize-observer-polyfill": "^1.5.1",
+    "warning": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.2.0"
+    "axios": "^0.20.0",
+    "react-hook-form": "^6.8.4",
+    "react-router-dom": "^5.2.0",
+    "use-global-hook": "^0.2.1"
   }
 }

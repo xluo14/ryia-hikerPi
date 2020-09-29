@@ -4,14 +4,15 @@ import {
     View,
     Tooltip,
     Schema,
+    Line,
+    Point,
     Axis,
     Interval,
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
 import * as actions from '../actions';
-import axios from "axios";
 
-const chart = data => {
+const chart = (data) => {
     return (
         <Chart
             height={400}
@@ -47,6 +48,8 @@ const chart = data => {
                     end: { x: 1, y: 0.7 },
                 }}
             >
+                <Line shape="smooth" position="date*predict" color="blue" label="output"/>
+                <Point position="date*predict" color="blue" />
                 <Schema
                     position={'date*range'}
                     shape={'candle'}
@@ -115,23 +118,35 @@ const chart = data => {
             </View>
         </Chart>)
 }
-function Graph() {
+function Predict() {
     const searchValue = {
         startDate: "2020-08-01",
-        endDsate: "2020-09-27",
+        endDate: "2020-09-27",
         ticker: "CL",
         contractExpire: "131",
     };
-
-    const searchResult  = await actions.getDataBySearch(searchValue);
-    const [data, setData] = useState(searchResult.data);
+    const searchResult  = actions.getDataBySearch(searchValue);
+    const predictResult  = actions.getDataByCompare(searchValue);
     const  status = "success";
     console.log(searchResult.data)
     console.log(status)
-    useEffect(() => {
+    const data1 = searchResult.data;
+    const data2 = predictResult.data;
+    const joinedData = [...data1, ...data2];
+    const [data, setData] = useState(joinedData);
+/*    const obj = [];
+    for (let i = 0; i < predictResult.output.length; i++) {
+        obj.push({index: i,
+            predict: predictResult.output[i]});
+    }
+    const [predictData, setPredictData] = useState(obj);
+    console.log(searchResult.data)
+    console.log(obj)
+    console.log(status)*/
+    useEffect((data) => {
         const ds = new DataSet();
         const dv = ds.createView();
-        dv.source(searchResult.data)
+        dv.source(data)
             .transform({
                 type: 'map',
                 callback: obj => {
@@ -143,6 +158,13 @@ function Graph() {
         setData(dv.rows)
         console.log(data)
     }, [])
+/*    useEffect((predictData) => {
+        const ds = new DataSet();
+        const dv = ds.createView();
+        dv.source(obj);
+        setPredictData(dv)
+        console.log(predictData)
+    }, [status])*/
     return (
         <>
             {status === "INITIAL" && chart(data)}
@@ -155,4 +177,4 @@ function Graph() {
     );
 }
 
-export default Graph;
+export default Predict;
