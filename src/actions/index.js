@@ -1,15 +1,10 @@
 import axios from "axios";
-<<<<<<< Updated upstream
-import {searchUrl} from "../Constant"
-=======
 import {searchUrl} from "../Constant";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 // 设置搜索值
 export const setSearchValue = (store, searchValue) => {
     store.setState({searchValue})
 }
->>>>>>> Stashed changes
-
 export const getDataBySearch = async (store, searchValue, request = axios) => {
     const status = "LOADING";
     store.setState({ status });
@@ -27,28 +22,6 @@ export const getDataBySearch = async (store, searchValue, request = axios) => {
         store.setState({ status });
     }
 };
-<<<<<<< Updated upstream
-export function setNowSearch () {
-    const endDate = new Date();
-    var dd = endDate.getDate();
-    var mm = endDate.getMonth() + 1;
-    var y = endDate.getFullYear();
-    const FormatedEndDate = y + '-'+ mm + '-' + dd;
-    const startDate = new Date(endDate.getDate() - 90 );
-    dd = startDate.getDate();
-    mm = startDate.getMonth() + 1;
-    y = startDate.getFullYear();
-    const FormatedStartDate = y + '-'+ mm + '-' + dd;
-    return FormatedStartDate, FormatedEndDate
-}
-function setViewDate (endDate, days) {
-    const endView = Date.parse(endDate);
-    endView.setDate(endDate.getDate() + days);
-    var dd = endView.getDate();
-    var mm = endView.getMonth() + 1;
-    var y = endView.getFullYear();
-    var FormattedDate = y + '-'+ mm + '-' + dd;
-=======
 
 export function setNowSearch() {
     const endDate = dayjs();
@@ -61,51 +34,11 @@ export function setNowSearch() {
 function setViewDate(endDate, days) {
     const endView = dayjs(endDate,'YYYY-MM-DD').add(days, 'day');
     const FormattedDate = endView.format('YYYY-MM-DD').toString();
-    console.log(FormattedDate);
->>>>>>> Stashed changes
+    console.log(FormattedDate)
     return FormattedDate;
 };
 
 export const getDataByCompare = async (store, searchValue, request = axios) => {
-<<<<<<< Updated upstream
-    const predictStatus = "LOADING";
-    store.setState({ predictStatus });
-    try {
-        const endView = setViewDate(searchValue.endDate,30);
-        const response = await request.get(
-            `${searchUrl}previous_price?&ticker=${searchValue.ticker}&contract_expir=${searchValue.contractExpire}&time_start=${searchValue.endDate}&time_end=${endView}`
-        );
-        const predictResult = response.data;
-        const isResultEmpty = predictResult.length === 0;
-        const status = isResultEmpty ? "EMPTY" : "SUCCESS";
-        store.setState({ predictResult, status });
-    } catch (error) {
-        const isError404 = error.response && error.response.status === 404;
-        const predictStatus = isError404 ? "NOT_FOUND" : "ERROR";
-        store.setState({ predictStatus });
-    }
-    try {
-        const response = await request.get(
-            `${searchUrl}future_predict?ticker=${searchValue.ticker}&toDateTime=${searchValue.endDate}`
-        );
-        const predictResult = response.data;
-        const isResultEmpty = predictResult.length === 0;
-        const predictStatus = isResultEmpty ? "EMPTY" : "SUCCESS";
-        const obj = [];
-        for (let i = 0; i < predictResult.output.length; i++) {
-            obj.push({index: setViewDate(searchValue.endDate, i),
-                predict: predictResult.output[i]});
-        }
-        console.log(obj)
-        store.setState({ predictResult, predictStatus });
-    } catch (error) {
-        const isError404 = error.response && error.response.status === 404;
-        const predictStatus = isError404 ? "NOT_FOUND" : "ERROR";
-        store.setState({ predictStatus });
-    }
-
-};
-=======
     const Status = "LOADING";
     store.setState({Status});
     try {
@@ -150,4 +83,3 @@ export const getDataByCompare = async (store, searchValue, request = axios) => {
         store.setState({status});
     }
 };
->>>>>>> Stashed changes

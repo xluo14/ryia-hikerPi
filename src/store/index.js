@@ -2,11 +2,8 @@ import React from "react";
 import useGlobalHook from "use-global-hook";
 import * as actions from "../actions";
 
-<<<<<<< Updated upstream
-=======
 
 const [start, end] = actions.setNowSearch()
->>>>>>> Stashed changes
 const initialState = {
     searchValue: {
         startDate: start,

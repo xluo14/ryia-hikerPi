@@ -125,32 +125,12 @@ function Graph() {
     const [searchValue, setSearchValue] = useState(null);
     const {status, searchResult} = globalState;
     useEffect(() => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        setData(searchResult.data)
-=======
         globalActions.getDataBySearch(searchValue);
         console.log(searchValue)
     }, [searchValue])
 
     // 转换数据
     function convertData(searchResult) {
->>>>>>> Stashed changes
-=======
-        const [startDate, endDate] = actions.setNowSearch();
-        const initialSearchValue = {
-            startDate: startDate,
-            endDate: endDate,
-            ticker: "CL",
-            contractExpire: "131",
-        };
-        setSearchValue(initialSearchValue)
-        globalActions.getDataBySearch(initialSearchValue);
-    }, [])
-
-    // 转换数据
-    function convertData(searchResult) {
->>>>>>> Stashed changes
         const ds = new DataSet();
         const dv = ds.createView();
         dv.source(searchResult.data)
