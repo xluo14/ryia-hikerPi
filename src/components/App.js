@@ -6,13 +6,6 @@ import '../styles/App.css';
 import * as actions from '../actions';
 
 function App () {
-
-    const searchValue = {
-        startDate: "2020-08-01",
-        endDate: "2020-09-27",
-        ticker: "CL",
-        contractExpire: "131",
-    };
         return (
             <div className="App">
                 <main>
