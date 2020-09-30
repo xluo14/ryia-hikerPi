@@ -11,6 +11,7 @@ import {
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
 import * as actions from '../actions';
+import useGlobal from "../store";
 
 const chart = (data) => {
     return (
@@ -119,9 +120,10 @@ const chart = (data) => {
         </Chart>)
 }
 function Predict() {
+    const [startDate, endDate] = actions.setNowSearch();
     const searchValue = {
-        startDate: "2020-08-01",
-        endDate: "2020-09-27",
+        startDate: startDate,
+        endDate: endDate,
         ticker: "CL",
         contractExpire: "131",
     };

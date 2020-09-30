@@ -18,7 +18,19 @@ export const getDataBySearch = async (store, searchValue, request = axios) => {
         store.setState({ status });
     }
 };
-
+export function setNowSearch () {
+    const endDate = new Date();
+    var dd = endDate.getDate();
+    var mm = endDate.getMonth() + 1;
+    var y = endDate.getFullYear();
+    const FormatedEndDate = y + '-'+ mm + '-' + dd;
+    const startDate = new Date(endDate.getDate() - 90 );
+    dd = startDate.getDate();
+    mm = startDate.getMonth() + 1;
+    y = startDate.getFullYear();
+    const FormatedStartDate = y + '-'+ mm + '-' + dd;
+    return FormatedStartDate, FormatedEndDate
+}
 function setViewDate (endDate, days) {
     const endView = Date.parse(endDate);
     endView.setDate(endDate.getDate() + days);

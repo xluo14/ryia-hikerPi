@@ -9,7 +9,7 @@ import {
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
 import * as actions from '../actions';
-import axios from "axios";
+import useGlobal from "../store";
 
 const chart = data => {
     return (
@@ -116,19 +116,21 @@ const chart = data => {
         </Chart>)
 }
 function Graph() {
-    const searchValue = {
-        startDate: "2020-08-01",
-        endDsate: "2020-09-27",
+    const [startDate, endDate] = actions.setNowSearch();
+    const initialSearchValue = {
+        startDate: startDate,
+        endDate: endDate,
         ticker: "CL",
         contractExpire: "131",
     };
-
-    const searchResult  = await actions.getDataBySearch(searchValue);
+    const [searchValue, setSearchValue] = useState(initialSearchValue);
+    const searchResult  = actions.getDataBySearch(searchValue);
     const [data, setData] = useState(searchResult.data);
     const  status = "success";
     console.log(searchResult.data)
     console.log(status)
     useEffect(() => {
+        setData(searchResult.data)
         const ds = new DataSet();
         const dv = ds.createView();
         dv.source(searchResult.data)
@@ -142,7 +144,7 @@ function Graph() {
             });
         setData(dv.rows)
         console.log(data)
-    }, [])
+    }, [searchResult.data])
     return (
         <>
             {status === "INITIAL" && chart(data)}
