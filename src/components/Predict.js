@@ -10,7 +10,6 @@ import {
     Interval,
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
-import * as actions from '../actions';
 import useGlobal from "../store";
 
 const chart = (data) => {
@@ -125,7 +124,7 @@ function Predict() {
     useEffect(() => {
         globalActions.getDataBySearch(searchValue);
         globalActions.getDataByCompare(searchValue);
-        console.log(searchValue)
+        console.log(searchValue);
     }, [searchValue])
 
     // 转换数据
@@ -142,24 +141,10 @@ function Predict() {
                     return obj;
                 }
             });
+        console.log(joinedData)
         return dv.rows;
     }
-/*    const obj = [];
-    for (let i = 0; i < predictResult.output.length; i++) {
-        obj.push({index: i,
-            predict: predictResult.output[i]});
-    }
-    const [predictData, setPredictData] = useState(obj);
-    console.log(searchResult.data)
-    console.log(obj)
-    console.log(status)*/
-/*    useEffect((predictData) => {
-        const ds = new DataSet();
-        const dv = ds.createView();
-        dv.source(obj);
-        setPredictData(dv)
-        console.log(predictData)
-    }, [status])*/
+
     return (
         <>
             {status === "INITIAL" && chart(convertData(searchResult, predictResult))}

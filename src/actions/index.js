@@ -33,8 +33,7 @@ export function setNowSearch() {
 
 function setViewDate(endDate, days) {
     const endView = dayjs(endDate,'YYYY-MM-DD').add(days, 'day');
-    const FormattedDate = endView.format('YYYY-MM-DD').toString();
-    console.log(FormattedDate)
+    var FormattedDate = endView.format('YYYY-MM-DD').toString();
     return FormattedDate;
 };
 
@@ -42,27 +41,38 @@ export const getDataByCompare = async (store, searchValue, request = axios) => {
     const Status = "LOADING";
     store.setState({Status});
     try {
-        const endView = setViewDate(searchValue.endDate, 30);
-        const response1 = await request.get(
-            `${searchUrl}previous_price?&ticker=${searchValue.ticker}&contract_expir=${searchValue.contractExpire}&time_start=${searchValue.endDate}&time_end=${endView}`
-        );
+        var endView = setViewDate(searchValue.endDate, 30);
+        var result = null;
+        if (dayjs(endView).isBefore(dayjs())) {
+            const response1 = await request.get(
+                `${searchUrl}previous_price?&ticker=${searchValue.ticker}&contract_expir=${searchValue.contractExpire}&time_start=${searchValue.endDate}&time_end=${endView}`
+            );
+            result = response1.data;
+            console.log(result);
+        } else if (!dayjs(endView).isEqual(dayjs())) {
+            const response1 = await request.get(
+                `${searchUrl}previous_price?&ticker=${searchValue.ticker}&contract_expir=${searchValue.contractExpire}&time_start=${searchValue.endDate}&time_end=${dayjs().format('YYYY-MM-DD')}`
+            );
+            result = response1.data;
+            console.log(result);
+        }
         const response2 = await request.get(
             `${searchUrl}future_predict?ticker=${searchValue.ticker}&toDateTime=${searchValue.endDate}`
         );
-        const Result = response1.data;
-        const predict = response2.output;
-        console.log(Result);
+        console.log(response2.data);
+        const predict = response2.data.output;
+        console.log(predict);
         const predictResult = [];
         for (let i = 0; i < predict.length; i++) {
-            if (Result[i]) {
+            if (result && result[i]) {
                 predictResult.push({
-                    date: setViewDate(searchValue.endDate, i),
-                    high: Result[i].high,
-                    low: Result[i].low,
-                    open: Result[i].open,
-                    close: Result[i].close,
-                    adjclose: Result[i].adjclose,
-                    volume: Result[i].volume,
+                    date: result[i].date,
+                    high: result[i].high,
+                    low: result[i].low,
+                    open: result[i].open,
+                    close: result[i].close,
+                    adjclose: result[i].adjclose,
+                    volume: result[i].volume,
                     predict: predict[i]
                 });
             }

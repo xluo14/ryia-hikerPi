@@ -8,7 +8,6 @@ import {
     Interval,
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
-import * as actions from '../actions';
 import useGlobal from "../store";
 
 const chart = data => {

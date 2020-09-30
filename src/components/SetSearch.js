@@ -13,8 +13,7 @@ export default function SetSearch(){
             ticker: e.ticker,
             contractExpire: "131",
         };
-        globalActions.fetchData.getDataBySearch(searchValue);
-        globalActions.fetchData.getPredictBySearch(searchValue);
+        globalActions.setSearchValue(searchValue);
         console.log(searchValue)
     };
 
