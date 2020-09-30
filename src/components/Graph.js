@@ -130,7 +130,16 @@ function Graph() {
     console.log(searchResult.data)
     console.log(status)
     useEffect(() => {
+<<<<<<< Updated upstream
         setData(searchResult.data)
+=======
+        globalActions.getDataBySearch(searchValue);
+        console.log(searchValue)
+    }, [searchValue])
+
+    // 转换数据
+    function convertData(searchResult) {
+>>>>>>> Stashed changes
         const ds = new DataSet();
         const dv = ds.createView();
         dv.source(searchResult.data)

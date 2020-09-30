@@ -18,7 +18,7 @@ function App () {
                 <main>
                     <Graph />
                     <SetSearch />
-                    {/*<Predict />*/}
+                    <Predict />
                 </main>
             </div>
         )

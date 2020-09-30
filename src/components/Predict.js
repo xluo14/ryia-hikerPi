@@ -120,22 +120,30 @@ const chart = (data) => {
         </Chart>)
 }
 function Predict() {
-    const [startDate, endDate] = actions.setNowSearch();
-    const searchValue = {
-        startDate: startDate,
-        endDate: endDate,
-        ticker: "CL",
-        contractExpire: "131",
-    };
-    const searchResult  = actions.getDataBySearch(searchValue);
-    const predictResult  = actions.getDataByCompare(searchValue);
-    const  status = "success";
-    console.log(searchResult.data)
-    console.log(status)
-    const data1 = searchResult.data;
-    const data2 = predictResult.data;
-    const joinedData = [...data1, ...data2];
-    const [data, setData] = useState(joinedData);
+    const [globalState, globalActions] = useGlobal()
+    const {status, searchResult, predictResult, searchValue} = globalState;
+    useEffect(() => {
+        globalActions.getDataBySearch(searchValue);
+        globalActions.getDataByCompare(searchValue);
+        console.log(searchValue)
+    }, [searchValue])
+
+    // 转换数据
+    function convertData(searchResult, predictResult) {
+        const joinedData = [...searchResult.data, ...predictResult];
+        const ds = new DataSet();
+        const dv = ds.createView();
+        dv.source(joinedData)
+            .transform({
+                type: 'map',
+                callback: obj => {
+                    obj.trend = (obj.open <= obj.close) ? '上涨' : '下跌';
+                    obj.range = [obj.open, obj.close, obj.high, obj.low];
+                    return obj;
+                }
+            });
+        return dv.rows;
+    }
 /*    const obj = [];
     for (let i = 0; i < predictResult.output.length; i++) {
         obj.push({index: i,
@@ -145,21 +153,6 @@ function Predict() {
     console.log(searchResult.data)
     console.log(obj)
     console.log(status)*/
-    useEffect((data) => {
-        const ds = new DataSet();
-        const dv = ds.createView();
-        dv.source(data)
-            .transform({
-                type: 'map',
-                callback: obj => {
-                    obj.trend = (obj.open <= obj.close) ? '上涨' : '下跌';
-                    obj.range = [obj.open, obj.close, obj.high, obj.low];
-                    return obj;
-                }
-            });
-        setData(dv.rows)
-        console.log(data)
-    }, [])
 /*    useEffect((predictData) => {
         const ds = new DataSet();
         const dv = ds.createView();
@@ -169,10 +162,10 @@ function Predict() {
     }, [status])*/
     return (
         <>
-            {status === "INITIAL" && chart(data)}
+            {status === "INITIAL" && chart(convertData(searchResult, predictResult))}
             {status === "LOADING" && <h4>Loading...</h4>}
-            {status === "SUCCESS" && chart(data)}
-            {status === "EMPTY" && <h4>This  have zero result</h4>}
+            {status === "SUCCESS" && chart(convertData(searchResult, predictResult))}
+            {status === "EMPTY" && <h4>This have zero result</h4>}
             {status === "NOT_FOUND" && <h4>404 - search not found</h4>}
             {status === "ERROR" && <h4>Connection Error</h4>}
         </>
