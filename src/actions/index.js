@@ -18,6 +18,7 @@ export const getDataBySearch = async (store, searchValue, request = axios) => {
         store.setState({ status });
     }
 };
+
 export function setNowSearch () {
     const endDate = new Date();
     var dd = endDate.getDate();

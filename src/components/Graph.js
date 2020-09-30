@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Chart,
     View,
@@ -12,6 +12,8 @@ import * as actions from '../actions';
 import useGlobal from "../store";
 
 const chart = data => {
+
+
     return (
         <Chart
             height={400}
@@ -25,12 +27,12 @@ const chart = data => {
                     tickCount: 4,
                 },
 
-                volume: { alias: '成交量' },
-                open: { alias: '开盘价' },
-                close: { alias: '收盘价' },
-                high: { alias: '最高价' },
-                low: { alias: '最低价' },
-                adjclose: { alias: '股票价格' }
+                volume: {alias: '成交量'},
+                open: {alias: '开盘价'},
+                close: {alias: '收盘价'},
+                high: {alias: '最高价'},
+                low: {alias: '最低价'},
+                adjclose: {alias: '股票价格'}
             }}
         >
             <Tooltip
@@ -43,8 +45,8 @@ const chart = data => {
             <View
                 data={data}
                 region={{
-                    start: { x: 0, y: 0 },
-                    end: { x: 1, y: 0.7 },
+                    start: {x: 0, y: 0},
+                    end: {x: 1, y: 0.7},
                 }}
             >
                 <Schema
@@ -63,22 +65,23 @@ const chart = data => {
                     ]}
                     tooltip={[
                         'date*open*close*high*low',
-                        (date, open, close,high,low) => {
+                        (date, open, close, high, low) => {
                             return {
                                 name: date,
                                 value: '<br><span style="padding-left: 16px">开盘价：' + open + '</span><br/>'
                                     + '<span style="padding-left: 16px">收盘价：' + close + '</span><br/>'
                                     + '<span style="padding-left: 16px">最高价：' + high + '</span><br/>'
                                     + '<span style="padding-left: 16px">最低价：' + low + '</span>'
-                            }}
+                            }
+                        }
                     ]}
                 />
             </View>
             <View
                 data={data}
                 region={{
-                    start: { x: 0, y: 0.7 },
-                    end: { x: 1, y: 1 },
+                    start: {x: 0, y: 0.7},
+                    end: {x: 1, y: 1},
                 }}
                 scale={{
                     volume: {
@@ -86,7 +89,7 @@ const chart = data => {
                     }
                 }}
             >
-                <Axis name="date" tickLine={null} label={null} />
+                <Axis name="date" tickLine={null} label={null}/>
                 <Axis name="volume"
                       label={{
                           formatter: val => {
@@ -115,22 +118,26 @@ const chart = data => {
             </View>
         </Chart>)
 }
+
+
 function Graph() {
-    const [startDate, endDate] = actions.setNowSearch();
-    const initialSearchValue = {
-        startDate: startDate,
-        endDate: endDate,
-        ticker: "CL",
-        contractExpire: "131",
-    };
-    const [searchValue, setSearchValue] = useState(initialSearchValue);
-    const searchResult  = actions.getDataBySearch(searchValue);
-    const [data, setData] = useState(searchResult.data);
-    const  status = "success";
-    console.log(searchResult.data)
-    console.log(status)
+    const [globalState, globalActions] = useGlobal()
+    const [searchValue, setSearchValue] = useState(null);
+    const {status, searchResult} = globalState;
     useEffect(() => {
-        setData(searchResult.data)
+        const [startDate, endDate] = actions.setNowSearch();
+        const initialSearchValue = {
+            startDate: startDate,
+            endDate: endDate,
+            ticker: "CL",
+            contractExpire: "131",
+        };
+        setSearchValue(initialSearchValue)
+        globalActions.getDataBySearch(initialSearchValue);
+    }, [])
+
+    // 转换数据
+    function convertData(searchResult) {
         const ds = new DataSet();
         const dv = ds.createView();
         dv.source(searchResult.data)
@@ -142,15 +149,16 @@ function Graph() {
                     return obj;
                 }
             });
-        setData(dv.rows)
-        console.log(data)
-    }, [searchResult.data])
+        return dv.rows;
+    }
+
+
     return (
         <>
-            {status === "INITIAL" && chart(data)}
+            {status === "INITIAL" && chart(convertData(searchResult))}
             {status === "LOADING" && <h4>Loading...</h4>}
-            {status === "SUCCESS" && chart(data)}
-            {status === "EMPTY" && <h4>This  have zero result</h4>}
+            {status === "SUCCESS" && chart(convertData(searchResult))}
+            {status === "EMPTY" && <h4>This have zero result</h4>}
             {status === "NOT_FOUND" && <h4>404 - search not found</h4>}
             {status === "ERROR" && <h4>Connection Error</h4>}
         </>

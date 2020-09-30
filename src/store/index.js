@@ -26,6 +26,6 @@ const initialState = {
         "rtn":0}
 };
 
-const useGlobal = useGlobalHook(React, initialState, actions);
+const useGlobal = useGlobalHook(React, initialState, {...actions});
 
 export default useGlobal;
