@@ -122,19 +122,10 @@ const chart = data => {
 
 function Graph() {
     const [globalState, globalActions] = useGlobal()
-    const [searchValue, setSearchValue] = useState(null);
-    const {status, searchResult} = globalState;
+    const {status, searchResult, searchValue} = globalState;
     useEffect(() => {
-        const [startDate, endDate] = actions.setNowSearch();
-        const initialSearchValue = {
-            startDate: startDate,
-            endDate: endDate,
-            ticker: "CL",
-            contractExpire: "131",
-        };
-        setSearchValue(initialSearchValue)
-        globalActions.getDataBySearch(initialSearchValue);
-    }, [])
+        globalActions.getDataBySearch(searchValue);
+    }, [searchValue])
 
     // 转换数据
     function convertData(searchResult) {
@@ -151,7 +142,6 @@ function Graph() {
             });
         return dv.rows;
     }
-
 
     return (
         <>
