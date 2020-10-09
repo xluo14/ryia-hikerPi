@@ -11,8 +11,6 @@ import DataSet from '@antv/data-set';
 import useGlobal from "../store";
 
 const chart = data => {
-
-
     return (
         <Chart
             height={400}

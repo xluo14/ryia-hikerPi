@@ -1,11 +1,11 @@
 import React from 'react';
-import { Select, Form, Button,Input, DatePicker } from 'antd';
+import { Select, Form, Button, DatePicker } from 'antd';
 import useGlobal from "../store";
-
+import config from "../config.json"
 
 export default function SetSearch(){
     const [globalState, globalActions] = useGlobal();
-
+    const tickers = config;
     const onFinish = (e) => {
         const searchValue = {
             startDate: e.startDate.format('YYYY-MM-DD'),
@@ -17,10 +17,11 @@ export default function SetSearch(){
         console.log(searchValue)
     };
 
-
     return (
             <Form
-                  layout="inline"
+                offset = {5}
+                layout = "inline"
+
                   onFinish={onFinish}
                   >
                 <Form.Item name="ticker">
