@@ -29,7 +29,11 @@ export default function SetSearch(){
                         placeholder="Ticker"
                         allowClear>
                         <Select.Option value="CL">CL</Select.Option>
-                        <Select.Option value="CN">CN</Select.Option>
+                        <Select.Option value="ES">ES</Select.Option>
+                        <Select.Option value="NG">NG</Select.Option>
+                        <Select.Option value="ZC">ZC</Select.Option>
+                        <Select.Option value="ZS">ZS</Select.Option>
+                        <Select.Option value="ZL">ZL</Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item name="startDate">
