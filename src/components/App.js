@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from "./Header";
+import Footer from "./Footer";
 import SetSearch from "./SetSearch";
 import Graph from "./Graph";
 import Predict from "./Predict"
@@ -10,22 +12,18 @@ import Sentiment from "./Sentiment"
 function App () {
         return (
             <div className="App">
+                <Header />
                 <main>
                     <Row>
-                        <Col span={12}>
-                            <Row>
-                                <Graph />
-                                <Col span={7}></Col>
-                                <Col span={13}><SetSearch /></Col>
-                                <Col span={7}></Col>
-                                <Predict />
-                            </Row>
-                        </Col>
-                        <Col span={12}>
-                            <Sentiment />
-                        </Col>
+                        <Graph />
+                        <Col span={7}></Col>
+                        <Col span={13}><SetSearch /></Col>
+                        <Col span={7}></Col>
+                        <Predict />
                     </Row>
+                    <Sentiment />
                 </main>
+                    <Footer />
             </div>
         )
 }

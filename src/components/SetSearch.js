@@ -5,7 +5,8 @@ import config from "../config.json"
 
 export default function SetSearch(){
     const [globalState, globalActions] = useGlobal();
-    const tickers = config;
+    const {searchValue} = globalState;
+    const tickers = config.ticker;
     const onFinish = (e) => {
         const searchValue = {
             startDate: e.startDate.format('YYYY-MM-DD'),
@@ -21,19 +22,20 @@ export default function SetSearch(){
             <Form
                 offset = {5}
                 layout = "inline"
-
+                initialValues={{
+                    ticker: "CL"
+                }}
                   onFinish={onFinish}
                   >
                 <Form.Item name="ticker">
                     <Select
                         placeholder="Ticker"
                         allowClear>
-                        <Select.Option value="CL">CL</Select.Option>
-                        <Select.Option value="ES">ES</Select.Option>
-                        <Select.Option value="NG">NG</Select.Option>
-                        <Select.Option value="ZC">ZC</Select.Option>
-                        <Select.Option value="ZS">ZS</Select.Option>
-                        <Select.Option value="ZL">ZL</Select.Option>
+                        {tickers.map(ticker => {
+                            return (
+                                <Select.Option value={ticker}>{ticker}</Select.Option>
+                            )
+                        })}
                     </Select>
                 </Form.Item>
                 <Form.Item name="startDate">

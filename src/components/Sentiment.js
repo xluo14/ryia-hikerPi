@@ -126,6 +126,66 @@ function Sentiment(x) {
             month: "Dec",
             city: "London",
             temperature: 4.8
+        },
+        {
+            month: "Jan",
+            city: "Neutral",
+            temperature: 3.9
+        },
+        {
+            month: "Feb",
+            city: "Neutral",
+            temperature: 4.2
+        },
+        {
+            month: "Mar",
+            city: "Neutral",
+            temperature: 9.5
+        },
+        {
+            month: "Apr",
+            city: "Neutral",
+            temperature: 14.5
+        },
+        {
+            month: "May",
+            city: "Neutral",
+            temperature: 18.4
+        },
+        {
+            month: "Jun",
+            city: "Neutral",
+            temperature: 21.5
+        },
+        {
+            month: "Jul",
+            city: "Neutral",
+            temperature: 17
+        },
+        {
+            month: "Aug",
+            city: "Neutral",
+            temperature: 26.5
+        },
+        {
+            month: "Sep",
+            city: "Neutral",
+            temperature: 14.2
+        },
+        {
+            month: "Oct",
+            city: "Tokyo",
+            temperature: 18.3
+        },
+        {
+            month: "Nov",
+            city: "Neutral",
+            temperature: 13.9
+        },
+        {
+            month: "Dec",
+            city: "Neutral",
+            temperature: 9.6
         }
     ];
     const [data, setData] = useState(rawData);
@@ -147,6 +207,7 @@ function Sentiment(x) {
     return <Chart scale={{temperature: {min: 0}}} padding={[30,20,50,40]} autoFit height={320} data={data} >
         <View
             data={rawData}
+            filter={[['city', city => city != 'Neutral']]}
             region={{
                 start: {x: 0, y: 0},
                 end: {x: 1, y: 0.8},
